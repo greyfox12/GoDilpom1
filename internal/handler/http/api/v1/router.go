@@ -4,43 +4,43 @@ import (
 	"github.com/go-chi/chi"
 )
 
-func (h *Handler) GetVersion() string {
+func (c *Handler) GetVersion() string {
 	return "v1"
 }
 
-func (h *Handler) GetContentType() string {
+func (c *Handler) GetContentType() string {
 	return ""
 }
-func (h *Handler) GetHandler() *Handler {
-	return h
+func (c *Handler) GetHandler() *Handler {
+	return c
 }
 
-func (h *Handler) AddRoutes(r *chi.Mux) {
+func (c *Handler) AddRoutes(r *chi.Mux) {
 
 	r.Group(func(r chi.Router) {
-		r.Use(h.Autoriz())
+		r.Use(c.Autoriz())
 		//получение списка загруженных пользователем номеров заказов, статусов их обработки и информации о начислениях
-		r.Get("/api/user/orders", h.getOrders)
+		r.Get("/api/user/orders", c.getOrders)
 		//получение текущего баланса счёта баллов лояльности пользователя
-		r.Get("/api/user/balance", h.getBalance)
+		r.Get("/api/user/balance", c.getBalance)
 		//запрос на списание баллов с накопительного счёта в счёт оплаты нового заказа
-		r.Get("/api/user/withdrawals", h.getWithdrawals)
+		r.Get("/api/user/withdrawals", c.getWithdrawals)
 
 		//загрузка пользователем номера заказа для расчёт
-		r.Post("/api/user/orders", h.postOrder)
+		r.Post("/api/user/orders", c.postOrder)
 		//запрос на списание баллов с накопительного счёта в счёт оплаты нового заказа
-		r.Post("/api/user/balance/withdraw", h.postWithdraw)
+		r.Post("/api/user/balance/withdraw", c.postWithdraw)
 
 	})
 
 	r.Group(func(r chi.Router) {
-		r.Post("/api/user/register", h.postRegister)
+		r.Post("/api/user/register", c.postRegister)
 		//аутентификация пользователя
-		r.Post("/api/user/login", h.postLogin())
+		r.Post("/api/user/login", c.postLogin())
 
 		// Ошибочный путь
-		r.Post("/*", h.errorPath)
-		r.Get("/*", h.errorPath)
+		r.Post("/*", c.errorPath)
+		r.Get("/*", c.errorPath)
 	})
 
 }

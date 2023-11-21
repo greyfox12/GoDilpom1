@@ -8,7 +8,7 @@ import (
 
 // Списание балов
 
-func (c *UseCase) DebitsDB(ctx context.Context, userID int, vReq domain.TPostWithdraw) (int, error) {
+func (u *UseCase) DebitsDB(ctx context.Context, userID int, vReq domain.TPostWithdraw) (int, error) {
 
-	return c.postWithdraw.Execute(ctx, userID, vReq)
+	return u.postWithdraw.Execute(ctx, userID, vReq)
 }
