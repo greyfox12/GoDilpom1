@@ -28,7 +28,7 @@ func initApp() {
 		App:    config.AppConfig{Name: "YandexDiplom", LogLevel: defLogLevel},
 		HTTP:   config.HTTPConfig{HostAddress: defServiceAddress, TimeoutContexDB: defTimeoutContexDB},
 		MainDB: config.SQLConfig{DSN: defDSN},
-		AccurualService: config.AccurualConfig{Url: defAccurualSystemAddress,
+		AccurualService: config.AccurualConfig{URL: defAccurualSystemAddress,
 			Interval:  defIntervalAccurual,
 			TimeReset: defAccurualTimeReset},
 	}

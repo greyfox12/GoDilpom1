@@ -14,7 +14,7 @@ func (c Handler) ExecAccrual(ctx context.Context) error {
 	//	ctx1, cancel := context.WithTimeout(context.Background(), time.Duration(c.cfg.HTTP.TimeoutContexDB)*time.Second)
 	//	defer cancel()
 
-	bk, err := c.uc.AccrualGetOrder(ctx, c.cfg.AccurualService.TimeReset, c.cfg.AccurualService.Url)
+	bk, err := c.uc.AccrualGetOrder(ctx, c.cfg.AccurualService.TimeReset, c.cfg.AccurualService.URL)
 	if err != nil || bk == nil {
 		c.logger.Error(fmt.Sprintf("%v: accruaGetOrderExec: %v", namefunc, err))
 		return err

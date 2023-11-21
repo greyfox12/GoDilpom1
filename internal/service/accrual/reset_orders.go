@@ -1,4 +1,4 @@
-package accrualServ
+package accrualserv
 
 import (
 	"context"

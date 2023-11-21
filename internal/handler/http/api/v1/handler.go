@@ -10,7 +10,7 @@ import (
 )
 
 type UseCase interface {
-	GetOrderDB(ctx context.Context, user_ID int) ([]*domain.TOrders, error)
+	GetOrderDB(ctx context.Context, userID int) ([]*domain.TOrders, error)
 	BalanceGetDB(ctx context.Context, userID int) (*domain.TBallance, error)
 	WithdrawalsGetDB(ctx context.Context, userID int) ([]*domain.TWithdrawals, error)
 	LoadOrderDB(ctx context.Context, UserID int, ordNum string) (int, error)

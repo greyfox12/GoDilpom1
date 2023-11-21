@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"bytes"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"runtime/debug"
 	"time"
@@ -18,7 +18,7 @@ func AccessLogMiddleware(log logger.Logger) func(next http.Handler) http.Handler
 			start := time.Now()
 			responseWriterWrapper := newResponseWriterWrapper(w)
 
-			reqBody, err := ioutil.ReadAll(r.Body)
+			reqBody, err := io.ReadAll(r.Body)
 			if err != nil {
 				log.Error("Failed to read request body")
 			}
@@ -28,7 +28,7 @@ func AccessLogMiddleware(log logger.Logger) func(next http.Handler) http.Handler
 				if err != nil {
 					log.Error("Failed to close body reader")
 				} else {
-					r.Body = ioutil.NopCloser(bytes.NewBuffer(reqBody))
+					r.Body = io.NopCloser(bytes.NewBuffer(reqBody))
 				}
 			}
 

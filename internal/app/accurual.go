@@ -47,7 +47,7 @@ func (a *App) StartAccrual(ctx context.Context) error {
 		}
 	}()
 
-	a.logger.Info(fmt.Sprintf("start RunAccurual on %s", a.cfg.AccurualService.Url))
+	a.logger.Info(fmt.Sprintf("start RunAccurual on %s", a.cfg.AccurualService.URL))
 	<-ctx.Done()
 
 	a.logger.Info("shutting down RunAccurual gracefully")

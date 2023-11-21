@@ -8,14 +8,14 @@ import (
 	"github.com/greyfox12/GoDilpom1/pkg/domain"
 )
 
-func (u *UseCase) AccrualGetOrder(ctxx context.Context, accualTimeReset int, accrualURL string) (*domain.TAccrualReq, error) {
+func (u *UseCase) AccrualGetOrder(ctx context.Context, accualTimeReset int, accrualURL string) (*domain.TAccrualReq, error) {
 
 	namefunc := "accrualGetOrder"
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(12)*time.Second)
+	ctxDB, cancel := context.WithTimeout(context.Background(), time.Duration(12)*time.Second)
 	defer cancel()
 
-	ordNum, err := u.accrual.ExecuteGetOrders(ctx, accualTimeReset)
+	ordNum, err := u.accrual.ExecuteGetOrders(ctxDB, accualTimeReset)
 	if err != nil {
 		return nil, fmt.Errorf("%v: ExecuteGetOrders: %w", namefunc, err)
 	}
@@ -25,9 +25,9 @@ func (u *UseCase) AccrualGetOrder(ctxx context.Context, accualTimeReset int, acc
 		return nil, nil
 	}
 
-	bk, err := u.accrual.ExecuteGetRequestHTTP(ctx, ordNum, accrualURL)
+	bk, err := u.accrual.ExecuteGetRequestHTTP(ctxDB, ordNum, accrualURL)
 	if err != nil {
-		_, err1 := u.accrual.ExecuteResetOrders(ctx, ordNum, accualTimeReset)
+		_, err1 := u.accrual.ExecuteResetOrders(ctxDB, ordNum, accualTimeReset)
 		//bk.OrdResetCn = cn
 		//		logger.Logger.Info(fmt.Errorf("%v: resetOrdersDB: reset %v orders", namefunc, cn))
 		if err1 != nil {
@@ -37,9 +37,9 @@ func (u *UseCase) AccrualGetOrder(ctxx context.Context, accualTimeReset int, acc
 		return nil, err
 	}
 
-	err = u.accrual.ExecuteSaveOrders(ctx, bk.Order, bk.Status, bk.Accrual)
+	err = u.accrual.ExecuteSaveOrders(ctxDB, bk.Order, bk.Status, bk.Accrual)
 	if err != nil {
-		_, err1 := u.accrual.ExecuteResetOrders(ctx, ordNum, accualTimeReset)
+		_, err1 := u.accrual.ExecuteResetOrders(ctxDB, ordNum, accualTimeReset)
 		//		bk.OrdResetCn += cn
 		//		logger.Logger.Info(fmt.Sprintf("%v: resetOrdersDB: reset %v orders", namefunc, cn))
 		if err1 != nil {

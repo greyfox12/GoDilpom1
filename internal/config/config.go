@@ -21,7 +21,7 @@ type HTTPConfig struct {
 }
 
 type AccurualConfig struct {
-	Url       string
+	URL       string
 	TimeReset int // Время после которого сбрасывается запрос к системе начисления баллов
 	Interval  int // Интервал в секудах опроса системы начисления баллов
 
@@ -57,8 +57,8 @@ func NewConfig(sp *Config) (Config, error) {
 		conf.HTTP.HostAddress = sp.HTTP.HostAddress
 	}
 
-	if conf.AccurualService.Url, ok = os.LookupEnv("ACCRUAL_SYSTEM_ADDRESS"); !ok {
-		conf.AccurualService.Url = sp.AccurualService.Url
+	if conf.AccurualService.URL, ok = os.LookupEnv("ACCRUAL_SYSTEM_ADDRESS"); !ok {
+		conf.AccurualService.URL = sp.AccurualService.URL
 	}
 
 	if conf.App.LogLevel, ok = os.LookupEnv("LOGING_LEVEL"); !ok {
@@ -67,7 +67,7 @@ func NewConfig(sp *Config) (Config, error) {
 
 	flag.StringVar(&conf.HTTP.HostAddress, "a", conf.HTTP.HostAddress, "Endpoint server IP address host:port")
 	flag.StringVar(&conf.MainDB.DSN, "d", sp.MainDB.DSN, "Database URI")
-	flag.StringVar(&conf.AccurualService.Url, "r", conf.AccurualService.Url, "Accurual System Address")
+	flag.StringVar(&conf.AccurualService.URL, "r", conf.AccurualService.URL, "Accurual System Address")
 	flag.StringVar(&conf.App.LogLevel, "l", conf.App.LogLevel, "Loging level")
 
 	flag.Parse()
@@ -80,7 +80,7 @@ func NewConfig(sp *Config) (Config, error) {
 	fmt.Printf("Config parametrs:\n")
 	fmt.Printf("Http server ADDRESS=%v\n", conf.HTTP.HostAddress)
 	fmt.Printf("DATABASE_URI=%v\n", conf.MainDB.DSN)
-	fmt.Printf("http AccurualSystemAddress=%v\n", conf.AccurualService.Url)
+	fmt.Printf("http AccurualSystemAddress=%v\n", conf.AccurualService.URL)
 	fmt.Printf("LogLevel=%v\n", conf.App.LogLevel)
 	fmt.Printf("AccurualTimeReset=%v\n", conf.AccurualService.TimeReset)
 	fmt.Printf("IntervalAccurual=%v\n", conf.AccurualService.Interval)
