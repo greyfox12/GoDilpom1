@@ -1,0 +1,33 @@
+package middleware
+
+import (
+	"context"
+	"net/http"
+	"time"
+
+	"github.com/greyfox12/GoDilpom1/internal/config"
+	"github.com/greyfox12/GoDilpom1/pkg/logger"
+)
+
+func AddContextMiddleware(log logger.Logger, cfg config.Config) func(next http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			requestID := r.Header.Get("X-Request-ID")
+			//if requestID == "" {
+			//	w.WriteHeader(http.StatusBadRequest)
+			//	_, err := w.Write([]byte(`request id header not found`))
+			//	if err != nil {
+			//		log.Error("failed to write response body")
+			//	}
+			//	return
+			//}
+			_ = requestID
+			//			ctx := context.Background()
+			ctx, cancel := context.WithTimeout(context.Background(), time.Duration(cfg.HTTP.TimeoutContexDB)*time.Second)
+			defer cancel()
+
+			r = r.WithContext(ctx)
+			next.ServeHTTP(w, r)
+		})
+	}
+}
